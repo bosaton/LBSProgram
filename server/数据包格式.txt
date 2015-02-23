@@ -1,0 +1,111 @@
+﻿浏览器接受的包格式：
+type:"loginOK"
+
+type:"loginError"
+
+type:"userRegOk"
+
+type:"userRegError"
+
+type:"accFmyPswErr",
+
+type:"groupRegOk"
+groupId:
+
+type:"replyGroupList"
+group：1001;1002;1003;...
+groupName:.....
+image:
+
+
+type:"publish"
+channel:
+content:{userId:userId,longitude:lng,latitude:lat,imageUrl:imageurl}
+
+type:"error"
+content:
+
+服务器接受的包格式：
+type:"userRegister"
+userId:
+userName:
+password:
+image:
+email:
+
+type:"login"
+userId:
+password:
+
+type:"groupRegister"
+groupName:
+accessMode:
+accessPsw:
+
+type:"requestGroupList"
+userId:
+
+type:"publish"
+channel:
+content:{userId:userId,longitude:lng,latitude:lat}
+
+type:"subscribe"
+userId:
+channel:
+accessPsw:
+
+type:"unsubscribe"
+userId:
+channel:
+
+type:"error"
+content:
+
+type:"online"
+user:userId
+
+type:"offline"
+user:userId
+
+	浏览器和node服务器之间通过socketio传送的消息类型主要有以上几种。
+	其中，浏览器端接受的消息有publish、error，浏览器端发送的消息类型有publish、subscribe、
+unsubscribe、error等。
+	node服务器接受的消息有publish、subscribe、unsubscribe、error等，发送的消息有publish、error。
+	online和offline类型信息主要是监测用户上下线功能需要。
+	
+	
+	
+	redis存储结构：
+	1. 群组频道
+	key：群组编号，从1000开始计数累加，格式可以为(grp:1000)
+	value: 群组名称：群主编号
+	群组名称为用户创建群组时输入，家主编号用于家主后期审核其他人订阅本群组。
+	例子（可在redis客户端中执行hgetall fmy:1002查看数据结构）：
+	grp:1002
+		groupName: "fname"
+		groupOwner:
+		groupMember:
+		accessMode:
+		accessPwd:
+	
+	2. 人员信息(hash表类型)
+	key：人员编号，从1000开始计数累加，格式可以为（per:1000)
+	field: userName；password；image; email；group;
+	value：对应上面几个字段
+	(group将订阅的群组用分号连接起来)
+	per:1002
+		userName:
+		password:
+		image:
+		email:
+		group:
+	
+	
+	3. 用户总数
+	key：NoOfUser
+	value: 整数值的数目
+	
+	4. 群组总数
+	key: NoOfGroups
+	value: 整数值的数目
+

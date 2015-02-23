@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no" charset="UTF-8" />
+		<title>LBSApplication</title>
+		<link rel="stylesheet" href="css/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
+		<script src="jquery.mobile/jquery-1.8.2.min.js"></script>
+		<script src="jquery.mobile/jquery.mobile-1.2.0.min.js"></script>
+		<script type="text/javascript" src="js/cordova-1.9.0.js"></script>
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=drawing,places"></script>
+		<script type="text/javascript" src="js/map.js"></script>
+		<script type="text/javascript" src="js/nearbysearch.js"></script>
+		<script type="text/javascript" src="js/direct.js"></script>
+		<script type="text/javascript" src="js/markerclusterer.js"></script>
+		<script type="text/javascript" src="js/monitor.js"></script>
+		<script type="text/javascript" src="js/socket.io.min.js"></script>
+	</head>
+	
+	<body onload="init()">
+		
+		<div id="mainPage"  data-role="page">
+		  <div data-role="content">
+				<div id="map_canvas"></div>
+				<div id="output"></div>
+		  </div>
+		  <div data-role="footer" data-theme="c" data-position="fixed">
+		  	<div data-role="navbar">
+				<ul>
+					<li><a href="#nearbySrchPage" data-rel="dialog" data-icon="home" >附近</a></li>
+					<li><a href="#" data-rel="dialog" data-icon="search">搜索</a></li>
+					<li><a href="#directPage" data-icon="forward"  rel="external" >找路</a></li>
+					<li><a href="#otherPage" data-rel="dialog" data-icon="gear">其他</a></li>
+				</ul>
+			</div>
+		  </div>
+		</div>
+		
+		
+		<div id="loginPage"  data-role="page">
+		  	<div class="content" data-role="content">
+				<form action="/" method="post" >
+					<div data-role="fieldcontain">
+						<label for="name">用户:</label>
+					    <input type="text" name="user[userNo]]" id="logUserNo" value=""  />
+					</div>
+					<div data-role="fieldcontain">
+						<label for="password">密码:</label>
+					    <input type="password" name="user[password]" id="logPassword" value="" />
+					</div>
+					    <input type="checkbox"  id="checkbox-0" data-role="none" />
+						<label for="checkbox-0">记住密码</label>
+						<input type="checkbox"  id="checkbox-2" data-role="none" />
+						<label for="checkbox-2">自动登录</label>	&nbsp; &nbsp;&nbsp; &nbsp;
+						<a href="#familyRegisterPage">创建家庭</a>&nbsp; &nbsp;  <a href="http://localhost:8080/reg.html">创建用户</a> 
+						<ul>
+							<li><a href="#" data-role="button" data-icon="forward" >清除</a></li>
+							<li><a href="#" data-role="button" data-icon="arrow-r" onclick="userLogin()">登 录</a></li>
+						</ul>
+				</form>	
+		  	</div>	
+		</div>
+		
+		
+		<div id="userRegisterPage"  data-role="page">
+			<div class="content" data-role="content">
+				<div data-role="fieldcontain">
+					    <label for="name">用户:</label>
+					    <input type="text" name="user[userName]" id="regName" value=""  />
+				</div>
+				<div data-role="fieldcontain">
+					    <label for="password">密码:</label>
+					    <input type="password" name="user[password]" id="regPassword" value="" />
+			    </div>
+			    <div data-role="fieldcontain">
+					    <label for="passwordr">重复密码:</label>
+					    <input type="password" name="user[passwordr]" id="regPasswordr" value="" />
+				</div>
+				<div data-role="fieldcontain">
+					    <label for="password">邮箱:</label>
+					    <input type="text" name="user[email]" id="regEmail" value="" />
+				</div>
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button type="submit" data-theme="c">清除</button></div>
+					<div class="ui-block-b"><button type="submit" data-theme="b" onclick="userRegister()">注册</button></div>	   
+				</fieldset>
+		  	</div>	
+		</div>
+		
+		
+		<div id="familyRegisterPage"  data-role="page">
+			<div class="content" data-role="content">
+				<div data-role="fieldcontain">
+					    <label for="name">群组名称:</label>
+					    <input type="text" name="user[userName]" id="regFamilyName" value=""  />
+				</div>
+			    <div data-role="fieldcontain">
+					    <label for="password">验证密码:</label>
+					    <input type="text" name="user[password]" id="accessPsw" value="" />
+			    </div>
+			    <div data-role="fieldcontain">
+				    <input type="checkbox" name="accessModePsw" id="accessModePsw" class="custom" />	
+				    <label for="accessModePsw">启用密码验证</label>
+				</div>
+			    
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button type="submit" data-theme="c">清除</button></div>
+					<div class="ui-block-b"><button type="submit" data-theme="b" onclick="familyRegister()">注册</button></div>	   
+				</fieldset>
+		  	</div>	
+		</div>
+		
+		
+
+		
+		
+		<div id="nearbySrchPage"  data-role="page">		
+			<div data-role="header" data-position="fixed" data-theme="c">
+					<h1>附近</h1>
+			</div>
+			<div data-role="content">
+				<div data-role="controlgroup">
+					<a id="srchNearbyStore" onclick="srchNearbyStore()" data-role="button">商店</a>
+					<a id="srchNearbyRestaurant" onclick="srchNearbyRestaurant()" data-role="button">餐馆</a>
+					<a id="srchNearbyBank" onclick="srchNearbyBank()" data-role="button">银行</a>
+					<a id="srchNearbyAtm" onclick="srchNearbyAtm()" data-role="button">ATM</a>
+					<a id="srchNearbyHospital" onclick="srchNearbyHospital()" data-role="button">医院</a>
+					<a id="srchNearbyPark" onclick="srchNearbyPark()" data-role="button">公园</a>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div id="nearbySrchResultPage"  data-role="page">		
+			<div data-role="header" data-position="fixed" data-theme="c">
+					<h2>附近搜索结果</h2>
+			</div>
+			<div data-role="content">
+				<div>	
+					<ul id="nearbySrchResult" data-role="listview" data-inset="true" data-filter="true">
+					</ul>
+				</div>	
+			</div>
+		</div>
+		
+		
+		<div id="directPage"  data-role="page">		
+			<div data-role="header" data-position="fixed" >
+						<h1>找路</h1>
+			</div>
+			<div data-role="content" id="directContent" data-inline="true" >
+				<div data-role="fieldcontain">
+					<label for="from">From:</label>
+					<input type="text" name="from" id="from" value=""  />
+				</div>
+				<div data-role="fieldcontain">
+					<label for="destiny">To:</label>
+					<input type="text" name="destiny" id="destiny" value="" />
+				</div>
+				<div data-role="fieldcontain">
+					<label for="travelMode" class="select">出行方式:</label>
+					<select name="travelMode" id="travelMode" data-role="none">
+						<option value="driving">驾车</option>
+						<option value="bicycling">骑车</option>
+						<option value="transit">公交</option>
+						<option value="walking">步行</option>
+					</select>
+					<button type="submit" data-theme="d" onclick="calcRoute()">Direct</button>
+				</div>
+				<div id="directionsPanel"></div>
+			</div>
+		</div>
+		
+		
+		<div id="locDescriptionPage" data-role="page">		
+			<div data-role="header" data-position="fixed" data-theme="c">
+					<h1>您的兴趣点</h1>
+			</div>
+			<div data-role="content">
+				我要评论
+			</div>
+		</div>
+		
+		
+		<div id="otherPage"  data-role="page">		
+			<div data-role="header" data-position="fixed" data-theme="c">
+					<h1>其他</h1>
+			</div>
+			<div data-role="content">
+				<div data-role="controlgroup">
+					<a href="#" data-role="button" onclick="sendToServer()" >头像设置</a>
+					<a href="#subpubSettingPage" data-role="button">订阅设置</a>
+					<a href="#monitorPage" rel="external" data-role="button">亲友监控</a>
+					<a href="about.html" data-rel="dialog" rel="external" data-role="button">关于项目</a>
+					<a href="#" data-role="button">退出</a>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div id="subpubSettingPage"  data-role="page">		
+			<div data-role="header" data-position="fixed" data-theme="c">
+					<h1>订阅管理</h1>
+			</div>
+			<div data-role="content">
+				<div data-role="fieldcontain">
+				 	<fieldset data-role="controlgroup" id="familyListField">
+
+				    </fieldset>
+				    <button type="submit" data-theme="c" onclick="unSubFamilies()">删除</button>
+				</div>
+				<div data-role="fieldcontain">
+						<label for="familyNo">请输入群组编号:</label>
+						<input type="text"  id="familyNo" value="" />
+				</div>
+				<div data-role="fieldcontain">
+						<label for="familyPsw">请输入群组密码:</label>
+						<input type="text"  id="familyPsw" value="" />
+				</div>
+				<button type="submit" data-theme="b" onclick="subFamilies()">新增</button>   
+				
+			</div>
+		</div>
+		
+		<div id="monitorPage" data-role="page">		
+			<div data-role="header" data-position="fixed" data-theme="c">
+					<h1>亲友监控</h1>
+			</div>
+			<div data-role="content">
+				<div data-role="controlgroup">
+					<a href="#" data-role="button">选择亲友</a>
+					<a href="#mainPage" onclick="startSetFence()" rel="external"  data-role="button">设置围栏</a>
+					
+				</div>
+
+			</div>
+		</div>
+		
+	</body>
+</html>

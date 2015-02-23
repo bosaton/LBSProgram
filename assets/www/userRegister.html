@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no" charset="UTF-8" />
+		<title>Login</title>
+		<link rel= "stylesheet" type="text/css" href="css/style.css" media="all" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	</head>
+	<body>
+		
+		<div id="login"  data-role="dialog" data-transition="pop">
+			<div data-role="header" data-theme="c" data-position="fixed">
+			  	<h1>用户注册</h1>
+		  	</div>
+		  
+		  	<div class="content" data-role="content">
+				<form action="/" method="post" >
+					    <label for="name">用户:</label>
+					    <input type="text" name="user[userNo]" id="userNo" value=""  />
+					    <label for="password">密码:</label>
+					    <input type="password" name="user[password]" id="password" value="" />
+					    <label for="passwordr">重复密码:</label>
+					    <input type="password" name="user[passwordr]" id="passwordr" value="" />
+					    <label for="password">邮箱:</label>
+					    <input type="text" name="user[email]" id="email" value="" />
+
+				</form>	
+		  	</div>	
+			<div data-role="footer" data-theme="c">
+				<div data-role="navbar">
+						
+						<ul>
+							<li><a href="#result" data-role="button" data-icon="forward" >清除</a></li>
+							<li><a href="main.html" data-role="button" data-icon="arrow-r" >注册</a></li>
+						</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

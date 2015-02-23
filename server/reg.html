@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no" charset="gbk" />
+		<title>LBSApplication</title>
+		<link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.2.0.min.css" />
+		<script src="jquery.mobile/jquery-1.8.2.min.js"></script>
+		<script src="jquery.mobile/jquery.mobile-1.2.0.min.js"></script>
+
+	</head>
+	
+	<body >
+
+		<form action="/" method="post" >
+				<div id="userRegisterPage"  data-role="page">
+					<div class="content" data-role="content">
+						<div data-role="fieldcontain">
+							    <label for="name">用户:</label>
+							    <input type="text" name="user[userName]" id="regName" value=""  />
+						</div>
+						<div data-role="fieldcontain">
+							    <label for="password">密码:</label>
+							    <input type="password" name="user[password]" id="regPassword" value="" />
+					    </div>
+					    <div data-role="fieldcontain">
+							    <label for="passwordr">重复密码:</label>
+							    <input type="password" name="user[passwordr]" id="regPasswordr" value="" />
+						</div>
+						<div data-role="fieldcontain">
+							    <label for="password">邮箱:</label>
+							    <input type="text" name="user[email]" id="regEmail" value="" />
+						</div>
+						
+						<div data-role="fieldcontain">
+							    <label for="portraitBtn">上传头像:</label>
+							    <img id="portraitImg"/>
+							    <input type="file" id="file"/>
+							    <button type="submit" data-theme="c">拍照上传</button>
+						</div>
+						
+						<fieldset class="ui-grid-a">
+							<div class="ui-block-a"><button type="submit" data-theme="c">清除</button></div>
+							<div class="ui-block-b"><button type="submit" data-theme="b" onclick="userRegister()">注册</button></div>	   
+						</fieldset>
+				  	</div>	
+				</div>
+		</form>
+		
+	</body>
+	
+</html>
